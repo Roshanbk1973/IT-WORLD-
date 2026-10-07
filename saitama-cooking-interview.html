@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>調理専門学校 面接練習</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,"Noto Sans JP",sans-serif;
+    background:#f5f7fa;
+    color:#222;
+}
+
+header{
+    background:linear-gradient(135deg,#e65100,#ff9800);
+    color:white;
+    text-align:center;
+    padding:28px 15px;
+}
+
+header h1{
+    margin:0 0 8px;
+    font-size:27px;
+}
+
+header p{
+    margin:5px;
+}
+
+.container{
+    max-width:850px;
+    margin:auto;
+    padding:14px;
+}
+
+.info,.card{
+    background:white;
+    border-radius:16px;
+    padding:18px;
+    margin:16px 0;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.tip{
+    background:#fff8e1;
+    border-left:5px solid #ff9800;
+    padding:15px;
+    border-radius:10px;
+    line-height:1.8;
+}
+
+.search{
+    width:100%;
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
+}
+
+.progress-bar{
+    height:12px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress{
+    width:0%;
+    height:100%;
+    background:#ff9800;
+    transition:.3s;
+}
+
+.card.important{
+    border:2px solid #ff9800;
+}
+
+.number{
+    display:inline-block;
+    padding:6px 12px;
+    background:#e65100;
+    color:white;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.star{
+    float:right;
+    font-size:24px;
+}
+
+.jp{
+    font-size:20px;
+    font-weight:bold;
+    margin-top:14px;
+    line-height:1.8;
+}
+
+.hira{
+    color:#1565c0;
+    margin-top:8px;
+    line-height:1.8;
+}
+
+.nepali{
+    color:#555;
+    margin-top:8px;
+    line-height:1.8;
+}
+
+.answer{
+    display:none;
+    border-top:1px solid #ddd;
+    margin-top:15px;
+    padding-top:15px;
+}
+
+.answer-title{
+    font-size:18px;
+    font-weight:bold;
+    color:#2e7d32;
+}
+
+button{
+    width:100%;
+    border:0;
+    border-radius:9px;
+    padding:13px;
+    margin-top:10px;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.listen{
+    background:#00897b;
+    color:white;
+}
+
+.show{
+    background:#e65100;
+    color:white;
+}
+
+.stop{
+    background:#eee;
+    color:#333;
+}
+
+.done{
+    background:#e8f5e9;
+    color:#2e7d32;
+}
+
+.done.completed{
+    background:#2e7d32;
+    color:white;
+}
+
+.top{
+    position:fixed;
+    right:18px;
+    bottom:20px;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:#e65100;
+    color:white;
+    font-size:21px;
+}
+
+footer{
+    background:#e65100;
+    color:white;
+    text-align:center;
+    padding:25px 10px;
+    margin-top:30px;
+}
+
+@media(max-width:600px){
+    header h1{font-size:23px}
+    .jp{font-size:18px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🍳 調理専門学校 面接練習</h1>
+<p>ちょうり せんもんがっこう めんせつ れんしゅう</p>
+<p>Japanese Interview Practice</p>
+</header>
+
+<main class="container">
+
+<div class="info">
+
+<h3>🎧 Listening + Speaking Practice</h3>
+
+<p>
+① 質問を読む<br>
+② 🔊 質問を聞く<br>
+③ 自分で答える<br>
+④ 答えを見る<br>
+⑤ 🔊 答えを聞いて練習する
+</p>
+
+<p>
+🇳🇵 पहिले प्रश्न पढ्नुहोस् → आवाज सुन्नुहोस् →
+आफैं उत्तर दिनुहोस् → त्यसपछि सही उत्तर हेर्नुहोस्।
+</p>
+
+<input
+id="search"
+class="search"
+placeholder="🔎 質問を検索（प्रश्न खोज्नुहोस्）"
+oninput="searchQuestions()">
+
+<p id="progressText">練習済み：0 / 30</p>
+
+<div class="progress-bar">
+<div id="progress" class="progress"></div>
+</div>
+
+</div>
+
+<div class="tip">
+⭐ भएका प्रश्नहरू interview का लागि विशेष महत्वपूर्ण छन्।<br>
+🔊 button थिचेर Japanese pronunciation सुन्नुहोस्।<br>
+उत्तर हेर्नुअघि आफैं बोल्ने प्रयास गर्नुहोस्।
+</div>
+
+<div id="questions"></div>
+
+</main>
+
+<button class="top"
+onclick="window.scrollTo({top:0,behavior:'smooth'})">
+↑
+</button>
+
+<footer>
+🍳 調理専門学校 面接練習<br>
+2027年度 入試準備
+</footer>
+
+
+<script>
+
+/* ==========================
+   JAPANESE LISTENING
+========================== */
+
+function speakJapanese(text){
+
+    if(!("speechSynthesis" in window)){
+        alert("音声機能が使えません。");
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const speech =
+    new SpeechSynthesisUtterance(text);
+
+    speech.lang="ja-JP";
+
+    // अलि slow pronunciation
+    speech.rate=0.75;
+
+    speech.pitch=1;
+    speech.volume=1;
+
+    const voices=speechSynthesis.getVoices();
+
+    const japaneseVoice=
+    voices.find(v=>v.lang.startsWith("ja"));
+
+    if(japaneseVoice){
+        speech.voice=japaneseVoice;
+    }
+
+    speechSynthesis.speak(speech);
+}
+
+function stopSpeaking(){
+    speechSynthesis.cancel();
+}
+
+
+/* ==========================
+   QUESTIONS + ANSWERS
+========================== */
+
+const questions=[
+
+{
+important:true,
+q:"自己紹介をしてください。",
+h:"じこしょうかいを してください。",
+n:"आफ्नो परिचय दिनुहोस्।",
+a:"はじめまして。ネパールから来ました。今、日本で日本語を勉強しています。料理に興味があります。よろしくお願いします。",
+ah:"はじめまして。ねぱーるから きました。いま、にほんで にほんごを べんきょうしています。りょうりに きょうみが あります。よろしく おねがいします。",
+an:"नमस्ते। म नेपालबाट आएको हुँ। अहिले जापानमा Japanese पढ्दै छु। मलाई cooking मा रुचि छ। धन्यवाद।"
+},
+
+{
+important:true,
+q:"なぜこの学校を選びましたか。",
+h:"なぜ この がっこうを えらびましたか。",
+n:"किन यो स्कूल छान्नुभयो?",
+a:"料理についてしっかり勉強したいからです。この学校で料理の知識と技術を学びたいです。",
+ah:"りょうりについて しっかり べんきょうしたいからです。この がっこうで りょうりの ちしきと ぎじゅつを まなびたいです。",
+an:"Cooking राम्रोसँग पढ्न चाहेकोले यो स्कूल छानेको हुँ। यहाँ cooking को ज्ञान र सीप सिक्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"なぜ料理を勉強したいですか。",
+h:"なぜ りょうりを べんきょうしたいですか。",
+n:"किन cooking पढ्न चाहनुहुन्छ?",
+a:"私は料理が好きです。もっと料理が上手になりたいです。だから、料理を勉強したいです。",
+ah:"わたしは りょうりが すきです。もっと りょうりが じょうずに なりたいです。だから、りょうりを べんきょうしたいです。",
+an:"मलाई खाना बनाउन मन पर्छ। अझ राम्रोसँग खाना बनाउन सिक्न चाहन्छु। त्यसैले cooking पढ्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"料理に興味を持った理由は何ですか。",
+h:"りょうりに きょうみを もった りゆうは なんですか。",
+n:"Cooking मा रुचि लाग्नुको कारण के हो?",
+a:"料理を作ることが好きだからです。おいしい料理を作ると、うれしいです。",
+ah:"りょうりを つくることが すきだからです。おいしい りょうりを つくると、うれしいです。",
+an:"मलाई खाना बनाउन मन पर्छ। मिठो खाना बनाउँदा खुसी लाग्छ।"
+},
+
+{
+q:"どんな料理が好きですか。",
+h:"どんな りょうりが すきですか。",
+n:"कस्तो खाना मन पर्छ?",
+a:"ネパール料理と日本料理が好きです。",
+ah:"ねぱーる りょうりと にほん りょうりが すきです。",
+an:"मलाई नेपाली र जापानी खाना मन पर्छ।"
+},
+
+{
+q:"料理をしたことがありますか。",
+h:"りょうりを したことが ありますか。",
+n:"खाना बनाएको अनुभव छ?",
+a:"はい、あります。家で料理をすることがあります。",
+ah:"はい、あります。いえで りょうりを することが あります。",
+an:"हो, छ। घरमा खाना बनाउँछु।"
+},
+
+{
+q:"何の料理を作ることができますか。",
+h:"なんの りょうりを つくることが できますか。",
+n:"के खाना बनाउन सक्नुहुन्छ?",
+a:"ネパール料理を作ることができます。これから日本料理も勉強したいです。",
+ah:"ねぱーる りょうりを つくることが できます。これから にほん りょうりも べんきょうしたいです。",
+an:"नेपाली खाना बनाउन सक्छु। अब जापानी खाना पनि सिक्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"入学したら何を勉強したいですか。",
+h:"にゅうがくしたら なにを べんきょうしたいですか。",
+n:"Admission भएपछि के पढ्न चाहनुहुन्छ?",
+a:"料理の知識と技術を勉強したいです。日本語ももっと勉強したいです。",
+ah:"りょうりの ちしきと ぎじゅつを べんきょうしたいです。にほんごも もっと べんきょうしたいです。",
+an:"Cooking को ज्ञान र सीप सिक्न चाहन्छु। Japanese पनि अझ पढ्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"入学したら、どんな学校生活を送りたいですか。",
+h:"にゅうがくしたら、どんな がっこうせいかつを おくりたいですか。",
+n:"Admission पछि कस्तो school life चाहनुहुन्छ?",
+a:"毎日まじめに勉強したいです。先生の話をよく聞いて、友達とも仲良くしたいです。",
+ah:"まいにち まじめに べんきょうしたいです。せんせいの はなしを よく きいて、ともだちとも なかよく したいです。",
+an:"हरेक दिन राम्रोसँग पढ्न चाहन्छु। शिक्षकको कुरा सुन्छु र साथीहरूसँग मिलेर बस्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"将来、何をしたいですか。",
+h:"しょうらい、なにを したいですか。",
+n:"भविष्यमा के गर्न चाहनुहुन्छ?",
+a:"将来、料理の仕事をしたいです。",
+ah:"しょうらい、りょうりの しごとを したいです。",
+an:"भविष्यमा cooking सम्बन्धी काम गर्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"卒業したら、何をしたいですか。",
+h:"そつぎょうしたら、なにを したいですか。",
+n:"Graduation पछि के गर्न चाहनुहुन्छ?",
+a:"卒業したら、日本で料理の仕事をしたいです。学校で勉強したことを仕事で使いたいです。",
+ah:"そつぎょうしたら、にほんで りょうりの しごとを したいです。がっこうで べんきょうしたことを しごとで つかいたいです。",
+an:"Graduation पछि जापानमा cooking को काम गर्न चाहन्छु। स्कूलमा सिकेको कुरा काममा प्रयोग गर्न चाहन्छु।"
+},
+
+{
+q:"日本で長く働きたいですか。",
+h:"にほんで ながく はたらきたいですか。",
+n:"जापानमा लामो समय काम गर्न चाहनुहुन्छ?",
+a:"はい、日本で長く働きたいです。",
+ah:"はい、にほんで ながく はたらきたいです。",
+an:"हो। जापानमा लामो समय काम गर्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"日本語の勉強はどうですか。",
+h:"にほんごの べんきょうは どうですか。",
+n:"Japanese पढाइ कस्तो छ?",
+a:"日本語は難しいですが、おもしろいです。毎日勉強しています。",
+ah:"にほんごは むずかしいですが、おもしろいです。まいにち べんきょうしています。",
+an:"Japanese गाह्रो छ तर रमाइलो छ। हरेक दिन पढिरहेको छु।"
+},
+
+{
+q:"日本語で授業を受けても大丈夫ですか。",
+h:"にほんごで じゅぎょうを うけても だいじょうぶですか。",
+n:"Japanese मा class हुँदा ठीक हुन्छ?",
+a:"はい。分からない時は先生に質問します。家でも勉強します。",
+ah:"はい。わからない ときは せんせいに しつもんします。いえでも べんきょうします。",
+an:"हो। नबुझेमा शिक्षकलाई सोध्छु र घरमा पनि पढ्छु।"
+},
+
+{
+q:"分からないことがあったら、どうしますか。",
+h:"わからないことが あったら、どうしますか。",
+n:"नबुझेको कुरा भए के गर्नुहुन्छ?",
+a:"先生に聞きます。自分でも調べます。",
+ah:"せんせいに ききます。じぶんでも しらべます。",
+an:"शिक्षकलाई सोध्छु। आफैं पनि खोज्छु।"
+},
+
+{
+important:true,
+q:"あなたの長所は何ですか。",
+h:"あなたの ちょうしょは なんですか。",
+n:"तपाईंको राम्रो पक्ष के हो?",
+a:"まじめなところです。最後まで頑張ります。",
+ah:"まじめな ところです。さいごまで がんばります。",
+an:"म गम्भीर भएर काम गर्छु। अन्तिमसम्म मेहनत गर्छु।"
+},
+
+{
+q:"あなたの短所は何ですか。",
+h:"あなたの たんしょは なんですか。",
+n:"तपाईंको कमजोरी के हो?",
+a:"日本語がまだ上手ではありません。でも、毎日勉強しています。",
+ah:"にほんごが まだ じょうずでは ありません。でも、まいにち べんきょうしています。",
+an:"Japanese अझै राम्रो छैन। तर हरेक दिन पढिरहेको छु।"
+},
+
+{
+q:"今まで一番頑張ったことは何ですか。",
+h:"いままで いちばん がんばったことは なんですか。",
+n:"अहिलेसम्म सबैभन्दा मेहनत गरेको कुरा के हो?",
+a:"日本語の勉強です。難しいですが、毎日勉強しています。",
+ah:"にほんごの べんきょうです。むずかしいですが、まいにち べんきょうしています。",
+an:"Japanese पढाइ हो। गाह्रो भए पनि हरेक दिन पढिरहेको छु।"
+},
+
+{
+q:"遅刻や欠席をしないで学校に来られますか。",
+h:"ちこくや けっせきを しないで がっこうに こられますか。",
+n:"ढिला वा absent नभई स्कूल आउन सक्नुहुन्छ?",
+a:"はい。時間を守って、毎日学校に来ます。",
+ah:"はい。じかんを まもって、まいにち がっこうに きます。",
+an:"हो। समय पालना गरेर हरेक दिन स्कूल आउँछु।"
+},
+
+{
+q:"学校のルールを守れますか。",
+h:"がっこうの るーるを まもれますか。",
+n:"स्कूलको नियम पालना गर्न सक्नुहुन्छ?",
+a:"はい、守ります。",
+ah:"はい、まもります。",
+an:"हो, पालना गर्छु।"
+},
+
+{
+important:true,
+q:"学費は大丈夫ですか。",
+h:"がくひは だいじょうぶですか。",
+n:"School fee को तयारी ठीक छ?",
+a:"はい、大丈夫です。学費の準備をしています。",
+ah:"はい、だいじょうぶです。がくひの じゅんびを しています。",
+an:"हो, ठीक छ। School fee को तयारी गरिरहेको छु।"
+},
+
+{
+q:"アルバイトをしたいですか。",
+h:"あるばいとを したいですか。",
+n:"Part-time काम गर्न चाहनुहुन्छ?",
+a:"はい。でも、勉強を一番大切にします。",
+ah:"はい。でも、べんきょうを いちばん たいせつに します。",
+an:"हो। तर पढाइलाई सबैभन्दा महत्वपूर्ण राख्छु।"
+},
+
+{
+q:"料理の仕事は大変ですが、大丈夫ですか。",
+h:"りょうりの しごとは たいへんですが、だいじょうぶですか。",
+n:"Cooking को काम गाह्रो हुन्छ, ठीक छ?",
+a:"はい、大丈夫です。大変でも一生懸命頑張ります。",
+ah:"はい、だいじょうぶです。たいへんでも いっしょうけんめい がんばります。",
+an:"हो, ठीक छ। गाह्रो भए पनि मेहनत गर्छु।"
+},
+
+{
+q:"チームで仕事ができますか。",
+h:"ちーむで しごとが できますか。",
+n:"Team मा काम गर्न सक्नुहुन्छ?",
+a:"はい、できます。みんなと協力して頑張ります。",
+ah:"はい、できます。みんなと きょうりょくして がんばります。",
+an:"हो, सक्छु। सबैसँग मिलेर काम गर्छु।"
+},
+
+{
+q:"料理で大切なことは何ですか。",
+h:"りょうりで たいせつなことは なんですか。",
+n:"Cooking मा महत्वपूर्ण कुरा के हो?",
+a:"安全と清潔が大切だと思います。",
+ah:"あんぜんと せいけつが たいせつだと おもいます。",
+an:"सुरक्षा र सफाइ महत्वपूर्ण हुन्छ जस्तो लाग्छ।"
+},
+
+{
+important:true,
+q:"なぜ日本で料理を勉強したいですか。",
+h:"なぜ にほんで りょうりを べんきょうしたいですか。",
+n:"किन जापानमा cooking पढ्न चाहनुहुन्छ?",
+a:"日本の料理と技術を勉強したいからです。",
+ah:"にほんの りょうりと ぎじゅつを べんきょうしたいからです。",
+an:"जापानी खाना र cooking skill सिक्न चाहेकोले हो।"
+},
+
+{
+q:"日本の生活はどうですか。",
+h:"にほんの せいかつは どうですか。",
+n:"जापानको जीवन कस्तो छ?",
+a:"最初は大変でしたが、今は少し慣れました。",
+ah:"さいしょは たいへんでしたが、いまは すこし なれました。",
+an:"सुरुमा गाह्रो थियो, अहिले अलि बानी परेको छ।"
+},
+
+{
+q:"毎日勉強できますか。",
+h:"まいにち べんきょうできますか。",
+n:"हरेक दिन पढ्न सक्नुहुन्छ?",
+a:"はい、できます。毎日まじめに勉強します。",
+ah:"はい、できます。まいにち まじめに べんきょうします。",
+an:"हो, सक्छु। हरेक दिन राम्रोसँग पढ्छु।"
+},
+
+{
+q:"友達と仲良くできますか。",
+h:"ともだちと なかよく できますか。",
+n:"साथीहरूसँग मिलेर बस्न सक्नुहुन्छ?",
+a:"はい、できます。みんなと仲良くしたいです。",
+ah:"はい、できます。みんなと なかよく したいです。",
+an:"हो, सक्छु। सबैसँग मिलेर बस्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"最後に何か質問がありますか。",
+h:"さいごに なにか しつもんが ありますか。",
+n:"अन्त्यमा कुनै प्रश्न छ?",
+a:"いいえ、ありません。今日はありがとうございました。",
+ah:"いいえ、ありません。きょうは ありがとうございました。",
+an:"होइन, प्रश्न छैन। आजको लागि धेरै धन्यवाद।"
+}
+
+];
+
+
+/* ==========================
+   PRACTICE PROGRESS
+========================== */
+
+let completed=
+JSON.parse(
+localStorage.getItem("cookingPractice")
+)||[];
+
+
+function render(){
+
+const box=document.getElementById("questions");
+box.innerHTML="";
+
+questions.forEach((x,i)=>{
+
+const card=document.createElement("div");
+
+card.className=
+"card"+(x.important?" important":"");
+
+card.dataset.search=
+(x.q+" "+x.h+" "+x.n+" "+x.a).toLowerCase();
+
+const qText=JSON.stringify(x.q);
+const aText=JSON.stringify(x.a);
+
+card.innerHTML=`
+
+<span class="number">質問 ${i+1}</span>
+
+${x.important?'<span class="star">⭐</span>':''}
+
+<div class="jp">${x.q}</div>
+
+<div class="hira">
+🔤 ${x.h}
+</div>
+
+<div class="nepali">
+🇳🇵 ${x.n}
+</div>
+
+
+<button class="listen"
+onclick='speakJapanese(${qText})'>
+🔊 質問を聞く（प्रश्न सुन्नुहोस्）
+</button>
+
+
+<button class="show"
+onclick="toggleAnswer(${i},this)">
+答えを見る（उत्तर हेर्नुहोस्）
+</button>
+
+
+<div class="answer" id="answer${i}">
+
+<div class="answer-title">
+✅ 答え（उत्तर）
+</div>
+
+<div class="jp">
+${x.a}
+</div>
+
+<div class="hira">
+🔤 ${x.ah}
+</div>
+
+<div class="nepali">
+🇳🇵 ${x.an}
+</div>
+
+
+<button class="listen"
+onclick='speakJapanese(${aText})'>
+🔊 答えを聞く（उत्तर सुन्नुहोस्）
+</button>
+
+
+<button class="stop"
+onclick="stopSpeaking()">
+⏹️ 停止（आवाज बन्द）
+</button>
+
+</div>
+
+
+<button
+class="done ${completed.includes(i)?"completed":""}"
+onclick="donePractice(${i},this)">
+
+${completed.includes(i)
+?"✓ 練習しました（अभ्यास भयो）"
+:"練習できました（अभ्यास भयो）"}
+
+</button>
+
+`;
+
+box.appendChild(card);
+
+});
+
+updateProgress();
+
+}
+
+
+function toggleAnswer(i,btn){
+
+const answer=
+document.getElementById("answer"+i);
+
+if(answer.style.display==="block"){
+
+answer.style.display="none";
+
+btn.textContent=
+"答えを見る（उत्तर हेर्नुहोस्）";
+
+}else{
+
+answer.style.display="block";
+
+btn.textContent=
+"答えを隠す（उत्तर लुकाउनुहोस्）";
+
+}
+
+}
+
+
+function donePractice(i,btn){
+
+if(completed.includes(i)){
+
+completed=
+completed.filter(x=>x!==i);
+
+btn.classList.remove("completed");
+
+btn.textContent=
+"練習できました（अभ्यास भयो）";
+
+}else{
+
+completed.push(i);
+
+btn.classList.add("completed");
+
+btn.textContent=
+"✓ 練習しました（अभ्यास भयो）";
+
+}
+
+localStorage.setItem(
+"cookingPractice",
+JSON.stringify(completed)
+);
+
+updateProgress();
+
+}
+
+
+function updateProgress(){
+
+const total=questions.length;
+const done=completed.length;
+
+document.getElementById("progressText")
+.textContent=
+"練習済み："+done+" / "+total;
+
+document.getElementById("progress")
+.style.width=
+(done/total*100)+"%";
+
+}
+
+
+function searchQuestions(){
+
+const word=
+document.getElementById("search")
+.value.toLowerCase();
+
+document
+.querySelectorAll(".card")
+.forEach(card=>{
+
+card.style.display=
+card.dataset.search.includes(word)
+?"block":"none";
+
+});
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
