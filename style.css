@@ -266,3 +266,29 @@ footer {
         width: 100%;
     }
 }
+/* ===== Mobile Navigation ===== */
+@media (max-width: 600px) {
+
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 8px;
+    }
+
+    nav a {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    section {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .card {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
