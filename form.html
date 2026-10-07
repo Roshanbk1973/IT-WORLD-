@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オンライン応募フォーム | IT WORLD</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, "Noto Sans JP", sans-serif;
+            background: #f3f6fb;
+            color: #222;
+        }
+
+        header {
+            background: linear-gradient(135deg, #17479e, #1684dc);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 30px;
+        }
+
+        header p {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #17479e;
+            border-left: 5px solid #1684dc;
+            padding-left: 10px;
+            margin-top: 35px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 7px;
+        }
+
+        .required {
+            color: #d90000;
+            font-size: 13px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .radio-group label {
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .radio-group input {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 35px;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: #17479e;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin: 25px 0;
+            color: #17479e;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #17479e;
+            color: white;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 25px;
+            }
+
+            .form-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>オンライン応募フォーム</h1>
+    <p>ONLINE APPLICATION FORM</p>
+</header>
+
+<div class="container">
+
+<form class="form-card"
+      action="https://formspree.io/f/mgaooley"
+      method="POST">
+
+    <h2>基本情報</h2>
+
+    <label>
+        氏名 <span class="required">必須</span>
+    </label>
+    <input type="text" name="氏名" required>
+
+    <label>
+        フリガナ <span class="required">必須</span>
+    </label>
+    <input type="text" name="フリガナ" required>
+
+    <label>
+        生年月日 <span class="required">必須</span>
+    </label>
+    <input type="date" name="生年月日" required>
+
+    <label>性別</label>
+    <div class="radio-group">
+        <label><input type="radio" name="性別" value="男性"> 男性</label>
+        <label><input type="radio" name="性別" value="女性"> 女性</label>
+        <label><input type="radio" name="性別" value="その他"> その他</label>
+    </div>
+
+    <label>国籍</label>
+    <input type="text" name="国籍">
+
+    <h2>連絡先</h2>
+
+    <label>
+        メールアドレス <span class="required">必須</span>
+    </label>
+    <input type="email" name="email" required>
+
+    <label>
+        電話番号 <span class="required">必須</span>
+    </label>
+    <input type="tel" name="電話番号" required>
+
+    <label>郵便番号</label>
+    <input type="text" name="郵便番号"
+           placeholder="例：270-0016">
+
+    <label>
+        現住所 <span class="required">必須</span>
+    </label>
+    <input type="text" name="現住所" required>
+
+    <h2>学校・日本語</h2>
+
+    <label>学校名</label>
+    <input type="text" name="学校名">
+
+    <label>学科・コース</label>
+    <input type="text" name="学科・コース">
+
+    <label>卒業予定年月</label>
+    <input type="month" name="卒業予定年月">
+
+    <label>日本語レベル</label>
+    <select name="日本語レベル">
+        <option value="">選択してください</option>
+        <option>JLPT N1</option>
+        <option>JLPT N2</option>
+        <option>JLPT N3</option>
+        <option>JLPT N4</option>
+        <option>JLPT N5</option>
+        <option>その他</option>
+    </select>
+
+    <h2>在留資格</h2>
+
+    <label>在留資格</label>
+    <select name="在留資格">
+        <option value="">選択してください</option>
+        <option>留学</option>
+        <option>技術・人文知識・国際業務</option>
+        <option>家族滞在</option>
+        <option>永住者</option>
+        <option>定住者</option>
+        <option>その他</option>
+    </select>
+
+    <label>在留期限</label>
+    <input type="date" name="在留期限">
+
+    <h2>応募情報</h2>
+
+    <label>
+        希望職種 <span class="required">必須</span>
+    </label>
+    <input type="text" name="希望職種" required
+           placeholder="例：ITエンジニア">
+
+    <label>希望勤務地</label>
+    <input type="text" name="希望勤務地">
+
+    <label>入社可能時期</label>
+    <input type="text" name="入社可能時期">
+
+    <h2>学歴・職歴</h2>
+
+    <label>学歴</label>
+    <textarea name="学歴" rows="5"
+              placeholder="学校名、入学年月、卒業年月など"></textarea>
+
+    <label>職歴・アルバイト経験</label>
+    <textarea name="職歴" rows="5"
+              placeholder="会社名、仕事内容、期間など"></textarea>
+
+    <h2>スキル・資格</h2>
+
+    <label>ITスキル</label>
+    <textarea name="ITスキル" rows="4"
+              placeholder="例：Java、HTML、CSS、JavaScript"></textarea>
+
+    <label>資格</label>
+    <textarea name="資格" rows="4"
+              placeholder="例：JLPT N3"></textarea>
+
+    <h2>自己PR・志望動機</h2>
+
+    <label>自己PR</label>
+    <textarea name="自己PR" rows="7"></textarea>
+
+    <label>
+        志望動機 <span class="required">必須</span>
+    </label>
+    <textarea name="志望動機" rows="7" required></textarea>
+
+    <label>その他・質問</label>
+    <textarea name="その他" rows="5"></textarea>
+
+    <button type="submit">応募内容を送信する</button>
+
+</form>
+
+<a href="index.html" class="back">
+    ← IT WORLDに戻る
+</a>
+
+</div>
+
+<footer>
+    © 2026 ROSHAN BK | IT WORLD
+</footer>
+
+</body>
+</html>
