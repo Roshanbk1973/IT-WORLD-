@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>介護専門学校 面接練習 | GURUNG AMRITA</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,"Noto Sans JP",sans-serif;
+    background:#f4f7fb;
+    color:#222;
+}
+
+header{
+    background:linear-gradient(135deg,#1565c0,#42a5f5);
+    color:white;
+    padding:30px 15px;
+    text-align:center;
+}
+
+header h1{
+    margin:0 0 10px;
+    font-size:27px;
+}
+
+header p{
+    margin:6px 0;
+    line-height:1.6;
+}
+
+.container{
+    max-width:850px;
+    margin:auto;
+    padding:15px;
+}
+
+.info{
+    background:white;
+    border-radius:16px;
+    padding:18px;
+    margin:15px 0;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.info strong{
+    color:#1565c0;
+}
+
+.search{
+    width:100%;
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
+}
+
+.progress-box{
+    margin-top:15px;
+}
+
+.progress-bar{
+    height:12px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress{
+    height:100%;
+    width:0%;
+    background:#1565c0;
+    transition:.3s;
+}
+
+.question-card{
+    background:white;
+    margin:18px 0;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.question-card.important{
+    border:2px solid #ffb300;
+}
+
+.number{
+    display:inline-block;
+    background:#1565c0;
+    color:white;
+    padding:6px 12px;
+    border-radius:20px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.star{
+    float:right;
+    font-size:22px;
+}
+
+.jp{
+    font-size:20px;
+    font-weight:bold;
+    line-height:1.7;
+}
+
+.hira{
+    margin-top:8px;
+    color:#1565c0;
+    line-height:1.7;
+}
+
+.nepali{
+    margin-top:8px;
+    color:#555;
+    line-height:1.7;
+}
+
+.answer{
+    display:none;
+    margin-top:15px;
+    border-top:1px solid #ddd;
+    padding-top:15px;
+}
+
+.answer-title{
+    font-weight:bold;
+    color:#008060;
+    margin-bottom:10px;
+}
+
+.answer .jp{
+    font-size:18px;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    border-radius:9px;
+    font-weight:bold;
+}
+
+.show-btn{
+    width:100%;
+    background:#1565c0;
+    color:white;
+    padding:13px;
+    font-size:16px;
+    margin-top:15px;
+}
+
+.done-btn{
+    width:100%;
+    background:#e8f5e9;
+    color:#16752c;
+    padding:12px;
+    margin-top:10px;
+    font-size:15px;
+}
+
+.done-btn.completed{
+    background:#2e7d32;
+    color:white;
+}
+
+.top-btn{
+    position:fixed;
+    right:18px;
+    bottom:20px;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#1565c0;
+    color:white;
+    font-size:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.3);
+}
+
+.tip{
+    background:#fff8e1;
+    border-left:5px solid #ffb300;
+    padding:15px;
+    border-radius:10px;
+    line-height:1.7;
+}
+
+footer{
+    background:#1565c0;
+    color:white;
+    text-align:center;
+    padding:25px 10px;
+    margin-top:30px;
+}
+
+@media(max-width:600px){
+    header h1{
+        font-size:23px;
+    }
+
+    .jp{
+        font-size:18px;
+    }
+
+    .container{
+        padding:10px;
+    }
+
+    .question-card{
+        padding:17px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎓 介護専門学校 面接練習</h1>
+<p>かいご せんもんがっこう めんせつ れんしゅう</p>
+<p>介護専門学校 Interview Practice</p>
+<p><strong>GURUNG AMRITA</strong></p>
+</header>
+
+<main class="container">
+
+<div class="info">
+<strong>📅 面接準備</strong>
+<p>
+質問を読んでから「答えを見る」を押してください。<br>
+पहिले प्रश्न पढ्नुहोस्, त्यसपछि उत्तर हेरेर बोल्ने अभ्यास गर्नुहोस्।
+</p>
+
+<input
+class="search"
+id="search"
+type="text"
+placeholder="🔎 質問を検索（प्रश्न खोज्नुहोस्）"
+oninput="searchQuestions()">
+
+<div class="progress-box">
+<p id="progressText">練習済み：0 / 30</p>
+<div class="progress-bar">
+<div class="progress" id="progress"></div>
+</div>
+</div>
+</div>
+
+<div class="tip">
+⭐ चिन्ह भएका प्रश्नहरू विशेष महत्वपूर्ण छन्।<br>
+उत्तर अक्षर-अक्षर मात्र याद नगरी, अर्थ बुझेर बिस्तारै बोल्ने अभ्यास गर्नुहोस्।
+</div>
+
+<div id="questions"></div>
+
+</main>
+
+<button class="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<footer>
+介護専門学校 面接練習<br><br>
+GURUNG AMRITA<br>
+2027年度 入試準備
+</footer>
+
+<script>
+
+const questions = [
+
+{
+important:true,
+q:"自己紹介をしてください。",
+qh:"じこしょうかいを してください。",
+qn:"आफ्नो परिचय दिनुहोस्।",
+a:"はじめまして。グルン アムリタです。ネパールから来ました。今、日本語を勉強しています。将来、介護福祉士になりたいです。よろしくお願いします。",
+ah:"はじめまして。ぐるん あむりたです。ねぱーるから きました。いま、にほんごを べんきょうしています。しょうらい、かいごふくししに なりたいです。よろしく おねがいします。",
+an:"नमस्ते। म गुरुङ अमृता हुँ। म नेपालबाट आएको हुँ। अहिले जापानी भाषा पढ्दै छु। भविष्यमा 介護福祉士 बन्न चाहन्छु। धन्यवाद।"
+},
+
+{
+important:true,
+q:"なぜ介護を勉強したいですか。",
+qh:"なぜ かいごを べんきょうしたいですか。",
+qn:"किन 介護 पढ्न चाहनुहुन्छ?",
+a:"私は、人を助ける仕事がしたいです。特に、お年寄りを助けたいです。だから、介護を勉強したいです。",
+ah:"わたしは、ひとを たすける しごとが したいです。とくに、おとしよりを たすけたいです。だから、かいごを べんきょうしたいです。",
+an:"म मानिसलाई सहयोग गर्ने काम गर्न चाहन्छु। विशेषगरी वृद्ध व्यक्तिहरूलाई सहयोग गर्न चाहन्छु। त्यसैले 介護 पढ्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"なぜ介護福祉士になりたいですか。",
+qh:"なぜ かいごふくししに なりたいですか。",
+qn:"किन 介護福祉士 बन्न चाहनुहुन्छ?",
+a:"人の役に立つ仕事がしたいからです。介護を勉強して、やさしい介護福祉士になりたいです。",
+ah:"ひとの やくに たつ しごとが したいからです。かいごを べんきょうして、やさしい かいごふくししに なりたいです。",
+an:"म मानिसहरूको काम लाग्ने काम गर्न चाहन्छु। 介護 पढेर दयालु 介護福祉士 बन्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"なぜこの学校を選びましたか。",
+qh:"なぜ この がっこうを えらびましたか。",
+qn:"किन यो स्कूल छान्नुभयो?",
+a:"この学校で、介護をしっかり勉強したいと思ったからです。先生に教えてもらいながら、介護の勉強を頑張りたいです。",
+ah:"この がっこうで、かいごを しっかり べんきょうしたいと おもったからです。せんせいに おしえてもらいながら、かいごの べんきょうを がんばりたいです。",
+an:"यो स्कूलमा 介護 राम्रोसँग पढ्न चाहेकोले छानेको हुँ। शिक्षकबाट सिक्दै मेहनत गर्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"将来、何になりたいですか。",
+qh:"しょうらい、なにに なりたいですか。",
+qn:"भविष्यमा के बन्न चाहनुहुन्छ?",
+a:"将来、介護福祉士になりたいです。",
+ah:"しょうらい、かいごふくししに なりたいです。",
+an:"भविष्यमा 介護福祉士 बन्न चाहन्छु।"
+},
+
+{
+important:true,
+q:"卒業したら、何をしたいですか。",
+qh:"そつぎょうしたら、なにを したいですか。",
+qn:"Graduation पछि के गर्न चाहनुहुन्छ?",
+a:"卒業したら、介護福祉士の資格を取りたいです。そして、日本で介護の仕事をしたいです。",
+ah:"そつぎょうしたら、かいごふくししの しかくを とりたいです。そして、にほんで かいごの しごとを したいです。",
+an:"Graduation पछि 介護福祉士 को qualification लिएर जापानमा 介護 को काम गर्न चाहन्छु।"
+},
+
+{
+q:"日本でどのくらい働きたいですか。",
+qh:"にほんで どのくらい はたらきたいですか。",
+qn:"जापानमा कति समय काम गर्न चाहनुहुन्छ?",
+a:"日本で長く働きたいです。",
+ah:"にほんで ながく はたらきたいです。",
+an:"जापानमा लामो समय काम गर्न चाहन्छु।"
+},
+
+{
+q:"日本語の勉強はどうですか。",
+qh:"にほんごの べんきょうは どうですか。",
+qn:"Japanese पढाइ कस्तो छ?",
+a:"日本語は難しいですが、おもしろいです。毎日、勉強しています。",
+ah:"にほんごは むずかしいですが、おもしろいです。まいにち、べんきょうしています。",
+an:"Japanese गाह्रो छ, तर रमाइलो छ। म हरेक दिन पढ्छु।"
+},
+
+{
+important:true,
+q:"今まで一番頑張ったことは何ですか。",
+qh:"いままで いちばん がんばったことは なんですか。",
+qn:"अहिलेसम्म सबैभन्दा मेहनत गरेको कुरा के हो?",
+a:"日本語の勉強です。最初は日本語を話すことが難しかったです。でも、毎日勉強しました。",
+ah:"にほんごの べんきょうです。さいしょは にほんごを はなすことが むずかしかったです。でも、まいにち べんきょうしました。",
+an:"Japanese पढाइ हो। सुरुमा Japanese बोल्न गाह्रो थियो। तर मैले हरेक दिन पढेँ।"
+},
+
+{
+q:"分からない日本語があったら、どうしますか。",
+qh:"わからない にほんごが あったら、どうしますか。",
+qn:"Japanese नबुझेमा के गर्नुहुन्छ?",
+a:"先生に聞きます。そして、自分でも調べます。",
+ah:"せんせいに ききます。そして、じぶんでも しらべます。",
+an:"शिक्षकलाई सोध्छु। अनि आफैं पनि खोजेर पढ्छु।"
+},
+
+{
+important:true,
+q:"入学したら、どんな学校生活を送りたいですか。",
+qh:"にゅうがくしたら、どんな がっこうせいかつを おくりたいですか。",
+qn:"Admission भएपछि कस्तो school life बिताउन चाहनुहुन्छ?",
+a:"毎日まじめに勉強したいです。先生の話をよく聞きます。クラスのみなさんと仲良くしたいです。",
+ah:"まいにち まじめに べんきょうしたいです。せんせいの はなしを よく ききます。くらすの みなさんと なかよく したいです。",
+an:"हरेक दिन राम्रोसँग पढ्न चाहन्छु। शिक्षकको कुरा राम्रोसँग सुन्छु। कक्षाका सबैसँग मिलेर बस्न चाहन्छु।"
+},
+
+{
+q:"学校で何を勉強したいですか。",
+qh:"がっこうで なにを べんきょうしたいですか。",
+qn:"स्कूलमा के पढ्न चाहनुहुन्छ?",
+a:"介護の知識と技術を勉強したいです。日本語ももっと勉強したいです。",
+ah:"かいごの ちしきと ぎじゅつを べんきょうしたいです。にほんごも もっと べんきょうしたいです。",
+an:"介護 को ज्ञान र सीप पढ्न चाहन्छु। Japanese पनि अझ धेरै पढ्न चाहन्छु।"
+},
+
+{
+q:"介護で大切なことは何だと思いますか。",
+qh:"かいごで たいせつなことは なんだと おもいますか。",
+qn:"介護 मा महत्वपूर्ण कुरा के हो?",
+a:"やさしい気持ちが大切だと思います。相手の話をよく聞くことも大切です。",
+ah:"やさしい きもちが たいせつだと おもいます。あいての はなしを よく きくことも たいせつです。",
+an:"दयालु भावना महत्वपूर्ण हुन्छ। अर्को व्यक्तिको कुरा राम्रोसँग सुन्नु पनि महत्वपूर्ण हुन्छ।"
+},
+
+{
+q:"お年寄りと話す時、何が大切ですか。",
+qh:"おとしよりと はなすとき、なにが たいせつですか。",
+qn:"वृद्ध व्यक्तिसँग कुरा गर्दा के महत्वपूर्ण हुन्छ?",
+a:"やさしく、ゆっくり話すことが大切です。そして、話をよく聞きます。",
+ah:"やさしく、ゆっくり はなすことが たいせつです。そして、はなしを よく ききます。",
+an:"दयालु भएर बिस्तारै बोल्नु महत्वपूर्ण हुन्छ। अनि उहाँहरूको कुरा राम्रोसँग सुन्छु।"
+},
+
+{
+q:"あなたの長所は何ですか。",
+qh:"あなたの ちょうしょは なんですか。",
+qn:"तपाईंको राम्रो पक्ष के हो?",
+a:"まじめなところです。最後まで頑張ります。",
+ah:"まじめな ところです。さいごまで がんばります。",
+an:"म गम्भीर भएर काम गर्छु। अन्तिमसम्म मेहनत गर्छु।"
+},
+
+{
+q:"あなたの短所は何ですか。",
+qh:"あなたの たんしょは なんですか。",
+qn:"तपाईंको कमजोरी के हो?",
+a:"日本語がまだ上手ではありません。でも、毎日勉強しています。",
+ah:"にほんごが まだ じょうずでは ありません。でも、まいにち べんきょうしています。",
+an:"मेरो Japanese अझै राम्रो छैन। तर म हरेक दिन पढिरहेको छु।"
+},
+
+{
+q:"日本に来たのはいつですか。",
+qh:"にほんに きたのは いつですか。",
+qn:"जापान कहिले आउनुभयो?",
+a:"2025年6月27日に来ました。",
+ah:"にせんにじゅうごねん ろくがつ にじゅうしちにちに きました。",
+an:"म 2025 जुन 27 मा जापान आएको हुँ।"
+},
+
+{
+q:"どこの国から来ましたか。",
+qh:"どこの くにから きましたか。",
+qn:"कुन देशबाट आउनुभएको हो?",
+a:"ネパールから来ました。",
+ah:"ねぱーるから きました。",
+an:"म नेपालबाट आएको हुँ।"
+},
+
+{
+q:"日本語の試験に合格したことがありますか。",
+qh:"にほんごの しけんに ごうかくしたことが ありますか。",
+qn:"Japanese भाषा परीक्षा पास गर्नुभएको छ?",
+a:"はい。JLCTのJCT5級に合格しました。",
+ah:"はい。じぇーえるしーてぃーの じぇーしーてぃー ごきゅうに ごうかくしました。",
+an:"हो। मैले JLCT को JCT 5級 पास गरेको छु।"
+},
+
+{
+q:"今、アルバイトをしていますか。",
+qh:"いま、あるばいとを していますか。",
+qn:"अहिले part-time काम गर्नुहुन्छ?",
+a:"いいえ、今はアルバイトをしていません。",
+ah:"いいえ、いまは あるばいとを していません。",
+an:"होइन। अहिले part-time काम गरिरहेको छैन।"
+},
+
+{
+q:"勉強とアルバイトは大丈夫ですか。",
+qh:"べんきょうと あるばいとは だいじょうぶですか。",
+qn:"पढाइ र part-time काम manage गर्न सक्नुहुन्छ?",
+a:"はい。勉強を一番大切にします。",
+ah:"はい。べんきょうを いちばん たいせつに します。",
+an:"हो। म पढाइलाई सबैभन्दा महत्वपूर्ण राख्छु।"
+},
+
+{
+q:"遅刻や欠席をしないで学校に来られますか。",
+qh:"ちこくや けっせきを しないで がっこうに こられますか。",
+qn:"ढिला वा अनुपस्थित नभई स्कूल आउन सक्नुहुन्छ?",
+a:"はい。毎日、時間を守って学校に来ます。",
+ah:"はい。まいにち、じかんを まもって がっこうに きます。",
+an:"हो। म हरेक दिन समय पालना गरेर स्कूल आउँछु।"
+},
+
+{
+q:"授業が難しい時、どうしますか。",
+qh:"じゅぎょうが むずかしいとき、どうしますか。",
+qn:"कक्षा गाह्रो भयो भने के गर्नुहुन्छ?",
+a:"先生に質問します。家でも勉強します。",
+ah:"せんせいに しつもんします。いえでも べんきょうします。",
+an:"शिक्षकलाई प्रश्न गर्छु। घरमा पनि पढ्छु।"
+},
+
+{
+q:"友達と一緒に勉強できますか。",
+qh:"ともだちと いっしょに べんきょうできますか。",
+qn:"साथीहरूसँग मिलेर पढ्न सक्नुहुन्छ?",
+a:"はい、できます。みんなと仲良く勉強したいです。",
+ah:"はい、できます。みんなと なかよく べんきょうしたいです。",
+an:"हो, सक्छु। सबैसँग मिलेर पढ्न चाहन्छु।"
+},
+
+{
+q:"学費は大丈夫ですか。",
+qh:"がくひは だいじょうぶですか。",
+qn:"School fee को तयारी ठीक छ?",
+a:"はい、大丈夫です。学費の準備をしています。",
+ah:"はい、だいじょうぶです。がくひの じゅんびを しています。",
+an:"हो, ठीक छ। School fee को तयारी गरिरहेको छु।"
+},
+
+{
+q:"介護の仕事は大変ですが、大丈夫ですか。",
+qh:"かいごの しごとは たいへんですが、だいじょうぶですか。",
+qn:"介護 को काम गाह्रो हुन्छ, गर्न सक्नुहुन्छ?",
+a:"はい、大丈夫です。大変でも、一生懸命頑張ります。",
+ah:"はい、だいじょうぶです。たいへんでも、いっしょうけんめい がんばります。",
+an:"हो, सक्छु। गाह्रो भए पनि पूरा मेहनत गर्छु।"
+},
+
+{
+q:"体力に自信がありますか。",
+qh:"たいりょくに じしんが ありますか。",
+qn:"शारीरिक रूपमा मेहनत गर्न सक्नुहुन्छ?",
+a:"はい、あります。健康に気をつけて頑張ります。",
+ah:"はい、あります。けんこうに きをつけて がんばります。",
+an:"हो। स्वास्थ्यको ध्यान राखेर मेहनत गर्छु।"
+},
+
+{
+q:"介護福祉士になったら、どんな人になりたいですか。",
+qh:"かいごふくししに なったら、どんな ひとに なりたいですか。",
+qn:"介護福祉士 भएपछि कस्तो व्यक्ति बन्न चाहनुहुन्छ?",
+a:"お年寄りにやさしくできる介護福祉士になりたいです。",
+ah:"おとしよりに やさしく できる かいごふくししに なりたいです。",
+an:"वृद्ध व्यक्तिहरूसँग दयालु व्यवहार गर्ने 介護福祉士 बन्न चाहन्छु।"
+},
+
+{
+q:"日本のルールを守れますか。",
+qh:"にほんの るーるを まもれますか。",
+qn:"जापानको नियम पालना गर्न सक्नुहुन्छ?",
+a:"はい、守ります。学校のルールも守ります。",
+ah:"はい、まもります。がっこうの るーるも まもります。",
+an:"हो, पालना गर्छु। स्कूलको नियम पनि पालना गर्छु।"
+},
+
+{
+important:true,
+q:"最後に何か質問がありますか。",
+qh:"さいごに なにか しつもんが ありますか。",
+qn:"अन्त्यमा कुनै प्रश्न छ?",
+a:"いいえ、ありません。今日はありがとうございました。",
+ah:"いいえ、ありません。きょうは ありがとうございました。",
+an:"होइन, प्रश्न छैन। आजको लागि धेरै धन्यवाद।"
+}
+
+];
+
+
+let completed =
+JSON.parse(localStorage.getItem("kaigoCompleted")) || [];
+
+
+function renderQuestions(){
+
+const box = document.getElementById("questions");
+box.innerHTML="";
+
+questions.forEach((item,index)=>{
+
+const card=document.createElement("div");
+card.className="question-card" + (item.important ? " important" : "");
+card.dataset.search=(item.q+" "+item.qh+" "+item.qn).toLowerCase();
+
+card.innerHTML=`
+
+<span class="number">質問 ${index+1}</span>
+${item.important ? '<span class="star">⭐</span>' : ''}
+
+<div class="jp">${item.q}</div>
+<div class="hira">🔤 ${item.qh}</div>
+<div class="nepali">🇳🇵 ${item.qn}</div>
+
+<button class="show-btn" onclick="toggleAnswer(${index},this)">
+答えを見る（उत्तर हेर्नुहोस्）
+</button>
+
+<div class="answer" id="answer${index}">
+
+<div class="answer-title">✅ 答え</div>
+
+<div class="jp">${item.a}</div>
+
+<div class="hira">
+🔤 ${item.ah}
+</div>
+
+<div class="nepali">
+🇳🇵 ${item.an}
+</div>
+
+</div>
+
+<button
+class="done-btn ${completed.includes(index) ? "completed" : ""}"
+onclick="markDone(${index},this)">
+${completed.includes(index) ? "✓ 練習しました（अभ्यास भयो）" : "練習できました（अभ्यास भयो）"}
+</button>
+`;
+
+box.appendChild(card);
+
+});
+
+updateProgress();
+}
+
+
+function toggleAnswer(index,button){
+
+const answer=document.getElementById("answer"+index);
+
+if(answer.style.display==="block"){
+answer.style.display="none";
+button.textContent="答えを見る（उत्तर हेर्नुहोस्）";
+}else{
+answer.style.display="block";
+button.textContent="答えを隠す（उत्तर लुकाउनुहोस्）";
+}
+
+}
+
+
+function markDone(index,button){
+
+if(completed.includes(index)){
+completed=completed.filter(i=>i!==index);
+button.classList.remove("completed");
+button.textContent="練習できました（अभ्यास भयो）";
+}else{
+completed.push(index);
+button.classList.add("completed");
+button.textContent="✓ 練習しました（अभ्यास भयो）";
+}
+
+localStorage.setItem(
+"kaigoCompleted",
+JSON.stringify(completed)
+);
+
+updateProgress();
+}
+
+
+function updateProgress(){
+
+const total=questions.length;
+const done=completed.length;
+const percent=(done/total)*100;
+
+document.getElementById("progressText").textContent=
+"練習済み："+done+" / "+total;
+
+document.getElementById("progress").style.width=
+percent+"%";
+
+}
+
+
+function searchQuestions(){
+
+const value=
+document.getElementById("search")
+.value
+.toLowerCase();
+
+const cards=
+document.querySelectorAll(".question-card");
+
+cards.forEach(card=>{
+
+if(card.dataset.search.includes(value)){
+card.style.display="block";
+}else{
+card.style.display="none";
+}
+
+});
+
+}
+
+
+renderQuestions();
+
+</script>
+
+</body>
+</html>
