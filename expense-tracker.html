@@ -1,673 +1,1073 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>支出管理（खर्च व्यवस्थापन）| ROSHAN BK</title>
+<title>支出管理（खर्च व्यवस्थापन）| ROSHAN BK</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, "Noto Sans JP", sans-serif;
-            background: #f3f6fb;
-            color: #222;
-        }
+body {
+    margin: 0;
+    font-family: Arial, "Noto Sans JP", sans-serif;
+    background: #f3f6fb;
+    color: #222;
+}
 
-        header {
-            background: linear-gradient(135deg, #174ea6, #287bd8);
-            color: white;
-            text-align: center;
-            padding: 35px 15px;
-        }
+header {
+    background: linear-gradient(135deg, #174ea6, #287bd8);
+    color: white;
+    text-align: center;
+    padding: 35px 15px;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 32px;
-        }
+header h1 {
+    margin: 0;
+    font-size: 30px;
+}
 
-        header p {
-            margin: 10px 0 0;
-            line-height: 1.7;
-        }
+header p {
+    margin: 10px 0 0;
+    line-height: 1.7;
+}
 
-        .container {
-            max-width: 650px;
-            margin: 25px auto;
-            padding: 15px;
-        }
+.container {
+    max-width: 700px;
+    margin: 25px auto;
+    padding: 15px;
+}
 
-        .balance-card {
-            background: white;
-            padding: 25px;
-            border-radius: 18px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
 
-        .balance-card h2 {
-            margin-bottom: 8px;
-        }
+.balance {
+    text-align: center;
+}
 
-        #balance {
-            font-size: 38px;
-            font-weight: bold;
-            color: #174ea6;
-        }
+#balance {
+    font-size: 38px;
+    font-weight: bold;
+    color: #174ea6;
+}
 
-        .summary {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
+.summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+}
 
-        .summary-box {
-            background: #f8faff;
-            padding: 20px 10px;
-            border-radius: 15px;
-        }
+.summary-box {
+    background: #f7f9fd;
+    padding: 18px 8px;
+    border-radius: 14px;
+    text-align: center;
+}
 
-        .income {
-            color: #168447;
-        }
+.income {
+    color: #168447;
+}
 
-        .expense {
-            color: #d93025;
-        }
+.expense {
+    color: #d93025;
+}
 
-        .form-card {
-            background: white;
-            margin-top: 20px;
-            padding: 25px;
-            border-radius: 18px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
 
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 7px;
-            font-weight: bold;
-        }
+input,
+select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    font-size: 16px;
+    background: white;
+}
 
-        input,
-        select {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 9px;
-            font-size: 16px;
-            background: white;
-        }
+.add-btn {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 20px;
+    background: #174ea6;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        .add-button {
-            width: 100%;
-            margin-top: 20px;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            background: #174ea6;
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.transaction {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8faff;
+    padding: 14px;
+    margin-top: 10px;
+    border-radius: 12px;
+}
 
-        .add-button:hover {
-            opacity: 0.9;
-        }
+.transaction-info {
+    flex: 1;
+    min-width: 0;
+}
 
-        .history {
-            margin-top: 25px;
-        }
+.transaction-info strong {
+    display: block;
+    word-break: break-word;
+}
 
-        .transaction {
-            background: white;
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-        }
+.transaction-info small {
+    display: block;
+    color: #666;
+    margin-top: 4px;
+}
 
-        .transaction-info {
-            flex: 1;
-            min-width: 0;
-        }
+.amount-income {
+    color: #168447;
+    font-weight: bold;
+}
 
-        .transaction-info strong {
-            display: block;
-            word-break: break-word;
-        }
+.amount-expense {
+    color: #d93025;
+    font-weight: bold;
+}
 
-        .transaction-info small {
-            color: #777;
-        }
+.delete-btn {
+    border: none;
+    background: #d93025;
+    color: white;
+    border-radius: 7px;
+    padding: 8px;
+    cursor: pointer;
+}
 
-        .amount-income {
-            color: #168447;
-            font-weight: bold;
-        }
+.empty {
+    text-align: center;
+    color: #777;
+    padding: 20px;
+}
 
-        .amount-expense {
-            color: #d93025;
-            font-weight: bold;
-        }
+.chart-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 35px;
+    height: 230px;
+    margin-top: 20px;
+    border-bottom: 2px solid #ddd;
+}
 
-        .delete-btn {
-            border: none;
-            border-radius: 7px;
-            padding: 7px 9px;
-            background: #d93025;
-            color: white;
-            cursor: pointer;
-        }
+.chart-item {
+    width: 90px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
 
-        .empty-message {
-            background: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 12px;
-            color: #777;
-        }
+.bar {
+    width: 65px;
+    min-height: 5px;
+    border-radius: 10px 10px 0 0;
+    transition: height 0.3s;
+}
 
-        .back {
-            display: block;
-            text-align: center;
-            margin: 30px 0;
-            text-decoration: none;
-            color: #174ea6;
-            font-weight: bold;
-            font-size: 18px;
-        }
+.income-bar {
+    background: #168447;
+}
 
-        footer {
-            background: #174ea6;
-            color: white;
-            text-align: center;
-            padding: 22px;
-            margin-top: 30px;
-        }
+.expense-bar {
+    background: #d93025;
+}
 
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 26px;
-            }
+.chart-value {
+    font-weight: bold;
+    margin-bottom: 7px;
+    font-size: 14px;
+}
 
-            #balance {
-                font-size: 32px;
-            }
+.chart-label {
+    margin-top: 8px;
+    font-weight: bold;
+    text-align: center;
+}
 
-            .container {
-                padding: 10px;
-            }
+.back {
+    display: block;
+    text-align: center;
+    margin: 30px 0;
+    color: #174ea6;
+    text-decoration: none;
+    font-weight: bold;
+}
 
-            .summary {
-                gap: 10px;
-            }
+footer {
+    text-align: center;
+    background: #174ea6;
+    color: white;
+    padding: 22px;
+}
 
-            .summary-box {
-                padding: 15px 5px;
-            }
+@media(max-width:600px) {
+    header h1 {
+        font-size: 25px;
+    }
 
-            .summary-box h3 {
-                font-size: 15px;
-            }
+    .container {
+        padding: 10px;
+    }
 
-            .transaction {
-                flex-wrap: wrap;
-            }
-        }
-    </style>
+    #balance {
+        font-size: 32px;
+    }
+
+    .transaction {
+        flex-wrap: wrap;
+    }
+
+    .chart-container {
+        gap: 20px;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h1>
-        💰 支出管理
-        （खर्च व्यवस्थापन）
-    </h1>
 
-    <p>
-        収入と支出を簡単に管理できるアプリです。<br>
-        （आम्दानी र खर्च सजिलै व्यवस्थापन गर्न सकिने एप हो।）
-    </p>
+<h1>
+💰 支出管理（खर्च व्यवस्थापन）
+</h1>
 
-    <p>ROSHAN BK | IT WORLD</p>
+<p>
+収入と支出を管理するアプリ<br>
+（आम्दानी र खर्च व्यवस्थापन गर्ने एप）
+</p>
+
+<p>
+ROSHAN BK | IT WORLD
+</p>
+
 </header>
 
 
 <main class="container">
 
-    <!-- Balance -->
-    <section class="balance-card">
 
-        <h2>
-            現在の残高
-            （हालको मौज्दात）
-        </h2>
+<!-- BALANCE -->
 
-        <div id="balance">¥0</div>
+<section class="card balance">
 
+<h2>
+現在の残高（हालको मौज्दात）
+</h2>
 
-        <div class="summary">
-
-            <div class="summary-box">
-                <h3>
-                    💵 収入
-                    （आम्दानी）
-                </h3>
-
-                <h2 class="income" id="income">
-                    ¥0
-                </h2>
-            </div>
+<div id="balance">¥0</div>
 
 
-            <div class="summary-box">
-                <h3>
-                    💸 支出
-                    （खर्च）
-                </h3>
+<div class="summary">
 
-                <h2 class="expense" id="expense">
-                    ¥0
-                </h2>
-            </div>
+<div class="summary-box">
 
-        </div>
+<h3>
+💵 収入（आम्दानी）
+</h3>
 
-    </section>
+<h2
+class="income"
+id="income">
+¥0
+</h2>
 
-
-    <!-- Add Transaction -->
-    <section class="form-card">
-
-        <h2>
-            ➕ 新しい取引を追加
-            （नयाँ कारोबार थप्नुहोस्）
-        </h2>
+</div>
 
 
-        <label for="description">
-            内容
-            （विवरण）
-        </label>
+<div class="summary-box">
 
-        <input
-            type="text"
-            id="description"
-            placeholder="例：給料、食費、交通費（उदाहरण: तलब, खाना खर्च, यातायात खर्च）"
-        >
+<h3>
+💸 支出（खर्च）
+</h3>
 
+<h2
+class="expense"
+id="expense">
+¥0
+</h2>
 
-        <label for="amount">
-            金額（円）
-            （रकम - येन）
-        </label>
+</div>
 
-        <input
-            type="number"
-            id="amount"
-            min="1"
-            placeholder="例：5000（उदाहरण: 5000）"
-        >
+</div>
+
+</section>
 
 
-        <label for="type">
-            種類
-            （प्रकार）
-        </label>
+<!-- MONTHLY SUMMARY -->
 
-        <select id="type">
+<section class="card">
 
-            <option value="income">
-                収入（आम्दानी）
-            </option>
+<h2>
+📅 月間まとめ（मासिक सारांश）
+</h2>
 
-            <option value="expense">
-                支出（खर्च）
-            </option>
+<label for="monthFilter">
+表示する月（हेर्ने महिना）
+</label>
 
-        </select>
+<input
+type="month"
+id="monthFilter"
+onchange="updateApp()"
+>
 
+<div class="summary">
 
-        <button
-            type="button"
-            class="add-button"
-            onclick="addTransaction()"
-        >
-            追加する（थप्नुहोस्）
-        </button>
+<div class="summary-box">
 
-    </section>
+<h3>
+月の収入（महिनाको आम्दानी）
+</h3>
 
+<h2
+class="income"
+id="monthlyIncome">
+¥0
+</h2>
 
-    <!-- History -->
-    <section class="history">
-
-        <h2>
-            📋 取引履歴
-            （कारोबारको इतिहास）
-        </h2>
-
-        <div id="transactionList"></div>
-
-    </section>
+</div>
 
 
-    <a href="index.html" class="back">
-        ← IT WORLDに戻る
-        （← IT WORLD मा फर्कनुहोस्）
-    </a>
+<div class="summary-box">
+
+<h3>
+月の支出（महिनाको खर्च）
+</h3>
+
+<h2
+class="expense"
+id="monthlyExpense">
+¥0
+</h2>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CHART -->
+
+<section class="card">
+
+<h2>
+📊 収支グラフ（आम्दानी र खर्च चार्ट）
+</h2>
+
+<div class="chart-container">
+
+<div class="chart-item">
+
+<div
+class="chart-value income"
+id="incomeChartValue">
+¥0
+</div>
+
+<div
+class="bar income-bar"
+id="incomeBar">
+</div>
+
+<div class="chart-label">
+収入<br>（आम्दानी）
+</div>
+
+</div>
+
+
+<div class="chart-item">
+
+<div
+class="chart-value expense"
+id="expenseChartValue">
+¥0
+</div>
+
+<div
+class="bar expense-bar"
+id="expenseBar">
+</div>
+
+<div class="chart-label">
+支出<br>（खर्च）
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ADD TRANSACTION -->
+
+<section class="card">
+
+<h2>
+➕ 新しい取引を追加
+（नयाँ कारोबार थप्नुहोस्）
+</h2>
+
+
+<label for="description">
+内容（विवरण）
+</label>
+
+<input
+type="text"
+id="description"
+placeholder="例：給料・食費（उदाहरण: तलब / खाना खर्च）"
+>
+
+
+<label for="amount">
+金額（円）（रकम - येन）
+</label>
+
+<input
+type="number"
+id="amount"
+min="1"
+placeholder="例：5000（उदाहरण: 5000）"
+>
+
+
+<label for="date">
+日付（मिति）
+</label>
+
+<input
+type="date"
+id="date"
+>
+
+
+<label for="category">
+カテゴリー（श्रेणी）
+</label>
+
+<select id="category">
+
+<option value="給料">
+給料（तलब）
+</option>
+
+<option value="食費">
+食費（खाना खर्च）
+</option>
+
+<option value="交通費">
+交通費（यातायात खर्च）
+</option>
+
+<option value="家賃">
+家賃（घर भाडा）
+</option>
+
+<option value="買い物">
+買い物（किनमेल）
+</option>
+
+<option value="電気・ガス">
+電気・ガス（बिजुली / ग्यास）
+</option>
+
+<option value="その他">
+その他（अन्य）
+</option>
+
+</select>
+
+
+<label for="type">
+種類（प्रकार）
+</label>
+
+<select id="type">
+
+<option value="income">
+収入（आम्दानी）
+</option>
+
+<option value="expense">
+支出（खर्च）
+</option>
+
+</select>
+
+
+<button
+class="add-btn"
+onclick="addTransaction()">
+
+追加する（थप्नुहोस्）
+
+</button>
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section class="card">
+
+<h2>
+📋 取引履歴（कारोबारको इतिहास）
+</h2>
+
+
+<label for="categoryFilter">
+カテゴリーで検索
+（श्रेणी अनुसार हेर्नुहोस्）
+</label>
+
+<select
+id="categoryFilter"
+onchange="updateApp()">
+
+<option value="all">
+すべて（सबै）
+</option>
+
+<option value="給料">
+給料（तलब）
+</option>
+
+<option value="食費">
+食費（खाना खर्च）
+</option>
+
+<option value="交通費">
+交通費（यातायात खर्च）
+</option>
+
+<option value="家賃">
+家賃（घर भाडा）
+</option>
+
+<option value="買い物">
+買い物（किनमेल）
+</option>
+
+<option value="電気・ガス">
+電気・ガス（बिजुली / ग्यास）
+</option>
+
+<option value="その他">
+その他（अन्य）
+</option>
+
+</select>
+
+
+<div id="transactionList">
+</div>
+
+</section>
+
+
+<a
+href="index.html"
+class="back">
+
+← IT WORLDに戻る
+（← IT WORLD मा फर्कनुहोस्）
+
+</a>
 
 </main>
 
 
 <footer>
-    <p>© 2026 ROSHAN BK | IT WORLD</p>
 
-    <p>
-        卒業制作プロジェクト
-        （स्नातक परियोजना）
-    </p>
+© 2026 ROSHAN BK | IT WORLD
+
+<br><br>
+
+卒業制作プロジェクト
+（स्नातक परियोजना）
+
 </footer>
 
 
 <script>
 
-    // 保存されたデータを読み込む
-    // (सेभ गरिएको डाटा लोड गर्ने)
-    let transactions =
-        JSON.parse(localStorage.getItem("transactions")) || [];
+let transactions =
+JSON.parse(
+localStorage.getItem("transactions")
+) || [];
 
 
-    // データを保存する
-    // (डाटा सेभ गर्ने)
-    function saveData() {
+/* 今日の日付
+   (आजको मिति) */
 
-        localStorage.setItem(
-            "transactions",
-            JSON.stringify(transactions)
-        );
+document.getElementById("date").value =
+new Date().toISOString().split("T")[0];
 
-    }
 
+/* 今月
+   (अहिलेको महिना) */
 
-    // 新しい取引を追加する
-    // (नयाँ कारोबार थप्ने)
-    function addTransaction() {
+document.getElementById("monthFilter").value =
+new Date().toISOString().slice(0,7);
 
-        const description =
-            document
-                .getElementById("description")
-                .value
-                .trim();
 
+/* データ保存
+   (डाटा सेभ गर्ने) */
 
-        const amount =
-            Number(
-                document
-                    .getElementById("amount")
-                    .value
-            );
+function saveData() {
 
+localStorage.setItem(
+"transactions",
+JSON.stringify(transactions)
+);
 
-        const type =
-            document
-                .getElementById("type")
-                .value;
+}
 
 
-        // 入力チェック
-        // (भरेको जानकारी जाँच गर्ने)
-        if (description === "" || amount <= 0) {
+/* 取引追加
+   (कारोबार थप्ने) */
 
-            alert(
-                "内容と金額を正しく入力してください。\n" +
-                "（कृपया विवरण र रकम सही रूपमा भर्नुहोस्।）"
-            );
+function addTransaction() {
 
-            return;
-        }
+const description =
+document
+.getElementById("description")
+.value
+.trim();
 
 
-        const transaction = {
+const amount =
+Number(
+document
+.getElementById("amount")
+.value
+);
 
-            id: Date.now(),
 
-            description: description,
+const date =
+document
+.getElementById("date")
+.value;
 
-            amount: amount,
 
-            type: type,
+const category =
+document
+.getElementById("category")
+.value;
 
-            date: new Date().toLocaleDateString("ja-JP")
 
-        };
+const type =
+document
+.getElementById("type")
+.value;
 
 
-        transactions.push(transaction);
+if (
+description === "" ||
+amount <= 0 ||
+date === ""
+) {
 
+alert(
+"正しく入力してください。\n" +
+"（कृपया सबै जानकारी सही रूपमा भर्नुहोस्।）"
+);
 
-        saveData();
+return;
 
-        updateApp();
+}
 
 
-        // 入力欄を空にする
-        // (इनपुट खाली गर्ने)
-        document
-            .getElementById("description")
-            .value = "";
+const transaction = {
 
+id: Date.now(),
 
-        document
-            .getElementById("amount")
-            .value = "";
+description: description,
 
-    }
+amount: amount,
 
+date: date,
 
-    // 取引を削除する
-    // (कारोबार हटाउने)
-    function deleteTransaction(id) {
+category: category,
 
-        const answer = confirm(
-            "この取引を削除しますか？\n" +
-            "（के तपाईं यो कारोबार हटाउन चाहनुहुन्छ?）"
-        );
+type: type
 
+};
 
-        if (!answer) {
-            return;
-        }
 
+transactions.push(transaction);
 
-        transactions =
-            transactions.filter(
-                item => item.id !== id
-            );
 
+saveData();
 
-        saveData();
+updateApp();
 
-        updateApp();
 
-    }
+document
+.getElementById("description")
+.value = "";
 
 
-    // 画面を更新する
-    // (स्क्रिन अपडेट गर्ने)
-    function updateApp() {
+document
+.getElementById("amount")
+.value = "";
 
-        const list =
-            document.getElementById("transactionList");
+}
 
 
-        list.innerHTML = "";
+/* 削除
+   (हटाउने) */
 
+function deleteTransaction(id) {
 
-        let totalIncome = 0;
-        let totalExpense = 0;
+const answer =
+confirm(
+"この取引を削除しますか？\n" +
+"（के तपाईं यो कारोबार हटाउन चाहनुहुन्छ?）"
+);
 
 
-        // データがない場合
-        // (कुनै डाटा नभएको अवस्थामा)
-        if (transactions.length === 0) {
+if (!answer) {
+return;
+}
 
-            const empty =
-                document.createElement("div");
 
+transactions =
+transactions.filter(
+item => item.id !== id
+);
 
-            empty.className = "empty-message";
 
+saveData();
 
-            empty.textContent =
-                "まだ取引がありません。（अहिलेसम्म कुनै कारोबार छैन।）";
+updateApp();
 
+}
 
-            list.appendChild(empty);
 
-        }
+/* 画面更新
+   (स्क्रिन अपडेट गर्ने) */
 
+function updateApp() {
 
-        transactions.forEach(item => {
+let totalIncome = 0;
 
+let totalExpense = 0;
 
-            if (item.type === "income") {
 
-                totalIncome += item.amount;
+transactions.forEach(item => {
 
-            } else {
+if (item.type === "income") {
 
-                totalExpense += item.amount;
+totalIncome += Number(item.amount);
 
-            }
+} else {
 
+totalExpense += Number(item.amount);
 
-            const div =
-                document.createElement("div");
+}
 
+});
 
-            div.className = "transaction";
 
+const balance =
+totalIncome - totalExpense;
 
-            const info =
-                document.createElement("div");
 
+document
+.getElementById("income")
+.textContent =
+"¥" + totalIncome.toLocaleString();
 
-            info.className =
-                "transaction-info";
 
+document
+.getElementById("expense")
+.textContent =
+"¥" + totalExpense.toLocaleString();
 
-            const title =
-                document.createElement("strong");
 
+document
+.getElementById("balance")
+.textContent =
+"¥" + balance.toLocaleString();
 
-            title.textContent =
-                item.description;
 
 
-            const date =
-                document.createElement("small");
+/* 月間計算
+   (मासिक हिसाब) */
 
+const selectedMonth =
+document
+.getElementById("monthFilter")
+.value;
 
-            date.textContent =
-                "日付（मिति）: " + item.date;
 
+let monthlyIncome = 0;
 
-            info.appendChild(title);
+let monthlyExpense = 0;
 
-            info.appendChild(date);
 
+transactions.forEach(item => {
 
-            const amountText =
-                document.createElement("span");
+if (
+item.date &&
+item.date.startsWith(selectedMonth)
+) {
 
+if (item.type === "income") {
 
-            amountText.className =
-                item.type === "income"
-                    ? "amount-income"
-                    : "amount-expense";
+monthlyIncome += Number(item.amount);
 
+} else {
 
-            amountText.textContent =
-                (item.type === "income" ? "+" : "-")
-                +
-                "¥"
-                +
-                item.amount.toLocaleString();
+monthlyExpense += Number(item.amount);
 
+}
 
-            const deleteButton =
-                document.createElement("button");
+}
 
+});
 
-            deleteButton.className =
-                "delete-btn";
 
+document
+.getElementById("monthlyIncome")
+.textContent =
+"¥" + monthlyIncome.toLocaleString();
 
-            deleteButton.textContent =
-                "削除（हटाउनुहोस्）";
 
+document
+.getElementById("monthlyExpense")
+.textContent =
+"¥" + monthlyExpense.toLocaleString();
 
-            deleteButton.onclick =
-                function () {
 
-                    deleteTransaction(item.id);
 
-                };
+/* グラフ
+   (चार्ट) */
 
+const maxValue =
+Math.max(
+monthlyIncome,
+monthlyExpense,
+1
+);
 
-            div.appendChild(info);
 
-            div.appendChild(amountText);
+const incomeHeight =
+(monthlyIncome / maxValue) * 150;
 
-            div.appendChild(deleteButton);
 
-            list.appendChild(div);
+const expenseHeight =
+(monthlyExpense / maxValue) * 150;
 
-        });
 
+document
+.getElementById("incomeBar")
+.style.height =
+incomeHeight + "px";
 
-        // 残高を計算する
-        // (मौज्दात गणना गर्ने)
-        const balance =
-            totalIncome - totalExpense;
 
+document
+.getElementById("expenseBar")
+.style.height =
+expenseHeight + "px";
 
-        document
-            .getElementById("income")
-            .textContent =
-            "¥" + totalIncome.toLocaleString();
 
+document
+.getElementById("incomeChartValue")
+.textContent =
+"¥" + monthlyIncome.toLocaleString();
 
-        document
-            .getElementById("expense")
-            .textContent =
-            "¥" + totalExpense.toLocaleString();
 
+document
+.getElementById("expenseChartValue")
+.textContent =
+"¥" + monthlyExpense.toLocaleString();
 
-        document
-            .getElementById("balance")
-            .textContent =
-            "¥" + balance.toLocaleString();
 
-    }
 
+/* 履歴
+   (इतिहास) */
 
-    // ページを開いた時に表示する
-    // (पेज खोल्दा डाटा देखाउने)
-    updateApp();
+const list =
+document
+.getElementById("transactionList");
+
+
+list.innerHTML = "";
+
+
+const categoryFilter =
+document
+.getElementById("categoryFilter")
+.value;
+
+
+const filteredTransactions =
+transactions.filter(item => {
+
+if (categoryFilter === "all") {
+
+return true;
+
+}
+
+return item.category === categoryFilter;
+
+});
+
+
+if (filteredTransactions.length === 0) {
+
+const empty =
+document.createElement("div");
+
+
+empty.className = "empty";
+
+
+empty.textContent =
+"取引がありません。" +
+"（कुनै कारोबार छैन।）";
+
+
+list.appendChild(empty);
+
+return;
+
+}
+
+
+filteredTransactions
+.slice()
+.reverse()
+.forEach(item => {
+
+
+const div =
+document.createElement("div");
+
+
+div.className =
+"transaction";
+
+
+const info =
+document.createElement("div");
+
+
+info.className =
+"transaction-info";
+
+
+const title =
+document.createElement("strong");
+
+
+title.textContent =
+item.description;
+
+
+const details =
+document.createElement("small");
+
+
+details.textContent =
+"日付（मिति）: "
++ item.date
++ " | "
++ "カテゴリー（श्रेणी）: "
++ (item.category || "その他");
+
+
+info.appendChild(title);
+
+info.appendChild(details);
+
+
+const amount =
+document.createElement("span");
+
+
+amount.className =
+item.type === "income"
+? "amount-income"
+: "amount-expense";
+
+
+amount.textContent =
+(item.type === "income"
+? "+"
+: "-"
+)
++
+"¥"
++
+Number(item.amount).toLocaleString();
+
+
+const deleteButton =
+document.createElement("button");
+
+
+deleteButton.className =
+"delete-btn";
+
+
+deleteButton.textContent =
+"削除（हटाउनुहोस्）";
+
+
+deleteButton.onclick =
+function() {
+
+deleteTransaction(item.id);
+
+};
+
+
+div.appendChild(info);
+
+div.appendChild(amount);
+
+div.appendChild(deleteButton);
+
+list.appendChild(div);
+
+});
+
+}
+
+
+updateApp();
 
 </script>
 
