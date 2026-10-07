@@ -279,25 +279,23 @@
 
 <h3>お問い合わせフォーム</h3>
 
-<form class="contact-form">
+<form class="contact-form"
+      action="https://formspree.io/f/mgaooley"
+      method="POST">
 
     <label for="name">お名前</label>
-    <input type="text"
-           id="name"
-           placeholder="お名前を入力してください">
+    <input type="text" id="name" name="name"
+           placeholder="お名前を入力してください" required>
 
     <label for="email">メールアドレス</label>
-    <input type="email"
-           id="email"
-           placeholder="メールアドレスを入力してください">
+    <input type="email" id="email" name="email"
+           placeholder="メールアドレスを入力してください" required>
 
     <label for="message">メッセージ</label>
-    <textarea id="message"
-              rows="5"
-              placeholder="メッセージを入力してください"></textarea>
+    <textarea id="message" name="message" rows="5"
+              placeholder="メッセージを入力してください" required></textarea>
 
     <button type="submit" class="button">送信</button>
-
 </form>
 
 </div>
