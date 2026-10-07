@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>登下校時間管理（स्कूल समय व्यवस्थापन）| ROSHAN BK</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, "Noto Sans JP", sans-serif;
+    background: #f3f6fb;
+    color: #222;
+}
+
+header {
+    background: linear-gradient(135deg, #174ea6, #287bd8);
+    color: white;
+    text-align: center;
+    padding: 35px 15px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 29px;
+}
+
+header p {
+    margin-top: 10px;
+    line-height: 1.7;
+}
+
+.container {
+    max-width: 750px;
+    margin: 25px auto;
+    padding: 15px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin-top: 16px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    font-size: 16px;
+    background: white;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.save-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    border-radius: 10px;
+    background: #174ea6;
+    color: white;
+    font-size: 17px;
+}
+
+.time-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.time-btn {
+    padding: 13px;
+    border-radius: 9px;
+    background: #e8f0fe;
+    color: #174ea6;
+    font-size: 15px;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.summary-box {
+    background: #f7f9fd;
+    padding: 18px 8px;
+    border-radius: 14px;
+    text-align: center;
+}
+
+.summary-box h3 {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+.summary-number {
+    font-size: 25px;
+    font-weight: bold;
+    color: #174ea6;
+}
+
+.record {
+    background: #f8faff;
+    padding: 16px;
+    border-radius: 12px;
+    margin-top: 12px;
+    border-left: 5px solid #174ea6;
+}
+
+.record-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.record p {
+    margin: 7px 0;
+    line-height: 1.5;
+}
+
+.delete-btn {
+    background: #d93025;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 7px;
+    margin-top: 10px;
+}
+
+.empty {
+    text-align: center;
+    padding: 25px;
+    color: #777;
+}
+
+.back {
+    display: block;
+    text-align: center;
+    margin: 30px 0;
+    color: #174ea6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer {
+    background: #174ea6;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+@media(max-width:600px) {
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .summary-box h3 {
+        font-size: 14px;
+    }
+
+    .time-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>
+🏫 登下校時間管理
+（स्कूल आउने-जाने समय व्यवस्थापन）
+</h1>
+
+<p>
+学校に来た時間と帰った時間を記録するアプリです。<br>
+（स्कूल आएको र स्कूलबाट निस्केको समय रेकर्ड गर्ने एप हो।）
+</p>
+
+<p>
+ROSHAN BK | IT WORLD
+</p>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- नयाँ रेकर्ड -->
+
+<section class="card">
+
+<h2>
+📝 今日の記録
+（आजको रेकर्ड）
+</h2>
+
+
+<label for="date">
+📅 日付
+（मिति）
+</label>
+
+<input
+type="date"
+id="date"
+>
+
+
+<label for="weekday">
+🗓️ 曜日
+（बार）
+</label>
+
+<input
+type="text"
+id="weekday"
+readonly
+>
+
+
+<label for="arrivalTime">
+🏫 登校時間
+（स्कूल पुगेको समय）
+</label>
+
+<input
+type="time"
+id="arrivalTime"
+>
+
+
+<div class="time-buttons">
+
+<button
+type="button"
+class="time-btn"
+onclick="setCurrentTime('arrivalTime')">
+
+現在時刻を入力
+（अहिलेको समय राख्नुहोस्）
+
+</button>
+
+</div>
+
+
+<label for="leaveTime">
+🚪 下校時間
+（स्कूलबाट निस्केको समय）
+</label>
+
+<input
+type="time"
+id="leaveTime"
+>
+
+
+<div class="time-buttons">
+
+<button
+type="button"
+class="time-btn"
+onclick="setCurrentTime('leaveTime')">
+
+現在時刻を入力
+（अहिलेको समय राख्नुहोस्）
+
+</button>
+
+</div>
+
+
+<label for="classDetails">
+📚 授業・活動内容
+（कक्षा / गरेको कामको विवरण）
+</label>
+
+<textarea
+id="classDetails"
+placeholder="例：Java、Web制作、ネットワークの授業
+（उदाहरण: Java, Web निर्माण, Network कक्षा）">
+</textarea>
+
+
+<label for="note">
+📝 メモ
+（नोट）
+</label>
+
+<textarea
+id="note"
+placeholder="今日の授業や学校についてメモしてください。
+（आजको कक्षा वा स्कूल सम्बन्धी नोट लेख्नुहोस्।）">
+</textarea>
+
+
+<button
+class="save-btn"
+onclick="saveRecord()">
+
+💾 保存する
+（सेभ गर्नुहोस्）
+
+</button>
+
+</section>
+
+
+
+<!-- मासिक summary -->
+
+<section class="card">
+
+<h2>
+📊 月間まとめ
+（मासिक सारांश）
+</h2>
+
+
+<label for="monthFilter">
+📅 表示する月
+（हेर्ने महिना）
+</label>
+
+<input
+type="month"
+id="monthFilter"
+onchange="displayRecords()"
+>
+
+
+<div class="summary">
+
+<div class="summary-box">
+
+<h3>
+登校日数
+（स्कूल गएको दिन）
+</h3>
+
+<div
+class="summary-number"
+id="schoolDays">
+
+0日
+
+</div>
+
+</div>
+
+
+<div class="summary-box">
+
+<h3>
+合計時間
+（जम्मा समय）
+</h3>
+
+<div
+class="summary-number"
+id="totalHours">
+
+0時間
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- History -->
+
+<section class="card">
+
+<h2>
+📋 登下校記録
+（स्कूल आउने-जाने रेकर्ड）
+</h2>
+
+<div id="recordList">
+</div>
+
+</section>
+
+
+
+<a
+href="index.html"
+class="back">
+
+← IT WORLDに戻る
+（← IT WORLD मा फर्कनुहोस्）
+
+</a>
+
+
+</main>
+
+
+
+<footer>
+
+© 2026 ROSHAN BK | IT WORLD
+
+<br><br>
+
+学校時間管理プロジェクト
+（स्कूल समय व्यवस्थापन परियोजना）
+
+</footer>
+
+
+
+<script>
+
+
+let records =
+JSON.parse(
+localStorage.getItem("schoolRecords")
+) || [];
+
+
+
+/* आजको मिति */
+
+const today =
+new Date().toISOString().split("T")[0];
+
+document.getElementById("date").value =
+today;
+
+
+
+/* अहिलेको महिना */
+
+document.getElementById("monthFilter").value =
+today.slice(0,7);
+
+
+
+/* Japanese + Nepali weekday */
+
+function updateWeekday() {
+
+const dateValue =
+document.getElementById("date").value;
+
+if (!dateValue) {
+return;
+}
+
+
+const date =
+new Date(dateValue + "T00:00:00");
+
+
+const weekdays = [
+
+"日曜日（आइतबार）",
+
+"月曜日（सोमबार）",
+
+"火曜日（मंगलबार）",
+
+"水曜日（बुधबार）",
+
+"木曜日（बिहीबार）",
+
+"金曜日（शुक्रबार）",
+
+"土曜日（शनिबार）"
+
+];
+
+
+document.getElementById("weekday").value =
+weekdays[date.getDay()];
+
+}
+
+
+document
+.getElementById("date")
+.addEventListener(
+"change",
+updateWeekday
+);
+
+
+updateWeekday();
+
+
+
+/* अहिलेको समय automatic राख्ने */
+
+function setCurrentTime(inputId) {
+
+const now =
+new Date();
+
+
+const hours =
+String(now.getHours()).padStart(2,"0");
+
+
+const minutes =
+String(now.getMinutes()).padStart(2,"0");
+
+
+document
+.getElementById(inputId)
+.value =
+hours + ":" + minutes;
+
+}
+
+
+
+/* School मा बसेको समय calculate */
+
+function calculateMinutes(start, end) {
+
+if (!start || !end) {
+return 0;
+}
+
+
+const startParts =
+start.split(":");
+
+
+const endParts =
+end.split(":");
+
+
+const startMinutes =
+Number(startParts[0]) * 60
++
+Number(startParts[1]);
+
+
+const endMinutes =
+Number(endParts[0]) * 60
++
+Number(endParts[1]);
+
+
+let difference =
+endMinutes - startMinutes;
+
+
+if (difference < 0) {
+
+difference += 24 * 60;
+
+}
+
+
+return difference;
+
+}
+
+
+
+/* Minute लाई hour/minute बनाउने */
+
+function formatDuration(minutes) {
+
+const hours =
+Math.floor(minutes / 60);
+
+
+const mins =
+minutes % 60;
+
+
+return (
+hours
++
+"時間 "
++
+mins
++
+"分"
++
+"（"
++
+hours
++
+" घण्टा "
++
+mins
++
+" मिनेट）"
+);
+
+}
+
+
+
+/* Save record */
+
+function saveRecord() {
+
+const date =
+document
+.getElementById("date")
+.value;
+
+
+const weekday =
+document
+.getElementById("weekday")
+.value;
+
+
+const arrivalTime =
+document
+.getElementById("arrivalTime")
+.value;
+
+
+const leaveTime =
+document
+.getElementById("leaveTime")
+.value;
+
+
+const classDetails =
+document
+.getElementById("classDetails")
+.value
+.trim();
+
+
+const note =
+document
+.getElementById("note")
+.value
+.trim();
+
+
+
+if (
+date === "" ||
+arrivalTime === "" ||
+leaveTime === ""
+) {
+
+alert(
+"日付・登校時間・下校時間を入力してください。\n"
++
+"（कृपया मिति, स्कूल पुगेको समय र निस्केको समय भर्नुहोस्।）"
+);
+
+return;
+
+}
+
+
+
+const duration =
+calculateMinutes(
+arrivalTime,
+leaveTime
+);
+
+
+
+const record = {
+
+id: Date.now(),
+
+date: date,
+
+weekday: weekday,
+
+arrivalTime: arrivalTime,
+
+leaveTime: leaveTime,
+
+duration: duration,
+
+classDetails: classDetails,
+
+note: note
+
+};
+
+
+
+records.push(record);
+
+
+
+localStorage.setItem(
+"schoolRecords",
+JSON.stringify(records)
+);
+
+
+
+document
+.getElementById("arrivalTime")
+.value = "";
+
+
+document
+.getElementById("leaveTime")
+.value = "";
+
+
+document
+.getElementById("classDetails")
+.value = "";
+
+
+document
+.getElementById("note")
+.value = "";
+
+
+
+alert(
+"保存しました。\n"
++
+"（रेकर्ड सेभ भयो।）"
+);
+
+
+
+displayRecords();
+
+}
+
+
+
+/* Delete */
+
+function deleteRecord(id) {
+
+const answer =
+confirm(
+"この記録を削除しますか？\n"
++
+"（के तपाईं यो रेकर्ड हटाउन चाहनुहुन्छ?）"
+);
+
+
+if (!answer) {
+return;
+}
+
+
+
+records =
+records.filter(
+record => record.id !== id
+);
+
+
+
+localStorage.setItem(
+"schoolRecords",
+JSON.stringify(records)
+);
+
+
+
+displayRecords();
+
+}
+
+
+
+/* Record display */
+
+function displayRecords() {
+
+const list =
+document
+.getElementById("recordList");
+
+
+list.innerHTML = "";
+
+
+
+const selectedMonth =
+document
+.getElementById("monthFilter")
+.value;
+
+
+
+const monthlyRecords =
+records
+.filter(record =>
+
+record.date.startsWith(selectedMonth)
+
+)
+.sort((a,b) =>
+
+b.date.localeCompare(a.date)
+
+);
+
+
+
+let totalMinutes = 0;
+
+
+
+monthlyRecords.forEach(record => {
+
+totalMinutes +=
+Number(record.duration);
+
+
+
+const div =
+document.createElement("div");
+
+
+div.className =
+"record";
+
+
+
+const title =
+document.createElement("div");
+
+
+title.className =
+"record-title";
+
+
+title.textContent =
+"📅 "
++
+record.date
++
+" "
++
+record.weekday;
+
+
+
+const time =
+document.createElement("p");
+
+
+time.textContent =
+"🏫 登校時間（स्कूल पुगेको समय）: "
++
+record.arrivalTime
++
+"　→　"
++
+"🚪 下校時間（निस्केको समय）: "
++
+record.leaveTime;
+
+
+
+const duration =
+document.createElement("p");
+
+
+duration.textContent =
+"⏱️ 学校にいた時間（स्कूलमा बसेको समय）: "
++
+formatDuration(
+Number(record.duration)
+);
+
+
+
+const classText =
+document.createElement("p");
+
+
+classText.textContent =
+"📚 授業・活動内容（कक्षा / गतिविधि）: "
++
+(
+record.classDetails ||
+"記録なし（रेकर्ड छैन）"
+);
+
+
+
+const note =
+document.createElement("p");
+
+
+note.textContent =
+"📝 メモ（नोट）: "
++
+(
+record.note ||
+"なし（छैन）"
+);
+
+
+
+const deleteButton =
+document.createElement("button");
+
+
+deleteButton.className =
+"delete-btn";
+
+
+deleteButton.textContent =
+"削除（हटाउनुहोस्）";
+
+
+deleteButton.onclick =
+function() {
+
+deleteRecord(record.id);
+
+};
+
+
+
+div.appendChild(title);
+
+div.appendChild(time);
+
+div.appendChild(duration);
+
+div.appendChild(classText);
+
+div.appendChild(note);
+
+div.appendChild(deleteButton);
+
+
+list.appendChild(div);
+
+});
+
+
+
+if (monthlyRecords.length === 0) {
+
+const empty =
+document.createElement("div");
+
+
+empty.className =
+"empty";
+
+
+empty.textContent =
+"この月の記録はありません。"
++
+"（यो महिनाको कुनै रेकर्ड छैन।）";
+
+
+list.appendChild(empty);
+
+}
+
+
+
+/* School days */
+
+document
+.getElementById("schoolDays")
+.textContent =
+monthlyRecords.length
++
+"日（"
++
+monthlyRecords.length
++
+" दिन）";
+
+
+
+/* Total time */
+
+const totalH =
+Math.floor(
+totalMinutes / 60
+);
+
+
+const totalM =
+totalMinutes % 60;
+
+
+document
+.getElementById("totalHours")
+.textContent =
+totalH
++
+"時間 "
++
+totalM
++
+"分";
+
+}
+
+
+
+displayRecords();
+
+
+</script>
+
+</body>
+
+</html>
