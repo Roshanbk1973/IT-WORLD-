@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Expense Tracker | ROSHAN BK</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f6fb;
+    color: #222;
+}
+
+header {
+    background: linear-gradient(135deg, #174ea6, #287bd8);
+    color: white;
+    text-align: center;
+    padding: 35px 15px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+header p {
+    margin-bottom: 0;
+}
+
+.container {
+    max-width: 650px;
+    margin: 25px auto;
+    padding: 15px;
+}
+
+.balance-card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.balance-card h2 {
+    margin-bottom: 5px;
+}
+
+#balance {
+    font-size: 38px;
+    font-weight: bold;
+    color: #174ea6;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.summary-box {
+    background: white;
+    padding: 20px 10px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+}
+
+.income {
+    color: #168447;
+}
+
+.expense {
+    color: #d93025;
+}
+
+.form-card {
+    background: white;
+    margin-top: 20px;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #174ea6;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.history {
+    margin-top: 25px;
+}
+
+.transaction {
+    background: white;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+.transaction-info {
+    flex: 1;
+}
+
+.transaction-info strong {
+    display: block;
+}
+
+.transaction-info small {
+    color: #777;
+}
+
+.amount-income {
+    color: #168447;
+    font-weight: bold;
+}
+
+.amount-expense {
+    color: #d93025;
+    font-weight: bold;
+}
+
+.delete-btn {
+    width: auto;
+    margin: 0 0 0 12px;
+    padding: 7px 10px;
+    background: #d93025;
+}
+
+.back {
+    display: block;
+    text-align: center;
+    margin: 30px 0;
+    text-decoration: none;
+    color: #174ea6;
+    font-weight: bold;
+}
+
+footer {
+    background: #174ea6;
+    color: white;
+    text-align: center;
+    padding: 22px;
+    margin-top: 30px;
+}
+
+@media(max-width:600px) {
+    header h1 {
+        font-size: 27px;
+    }
+
+    #balance {
+        font-size: 32px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>💰 Expense Tracker</h1>
+    <p>ROSHAN BK | Money Management App</p>
+</header>
+
+<div class="container">
+
+    <div class="balance-card">
+        <h2>現在の残高</h2>
+        <div id="balance">¥0</div>
+
+        <div class="summary">
+            <div class="summary-box">
+                <h3>収入</h3>
+                <h2 class="income" id="income">¥0</h2>
+            </div>
+
+            <div class="summary-box">
+                <h3>支出</h3>
+                <h2 class="expense" id="expense">¥0</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-card">
+
+        <h2>💳 取引を追加</h2>
+
+        <label>内容</label>
+        <input
+            type="text"
+            id="description"
+            placeholder="例：アルバイト給料 / 食費">
+
+        <label>金額（円）</label>
+        <input
+            type="number"
+            id="amount"
+            min="1"
+            placeholder="例：5000">
+
+        <label>種類</label>
+
+        <select id="type">
+            <option value="income">収入</option>
+            <option value="expense">支出</option>
+        </select>
+
+        <button onclick="addTransaction()">
+            追加する
+        </button>
+
+    </div>
+
+    <div class="history">
+
+        <h2>📋 取引履歴</h2>
+
+        <div id="transactionList"></div>
+
+    </div>
+
+    <a href="index.html" class="back">
+        ← IT WORLDに戻る
+    </a>
+
+</div>
+
+<footer>
+    © 2026 ROSHAN BK | IT WORLD
+</footer>
+
+<script>
+
+let transactions =
+JSON.parse(localStorage.getItem("transactions")) || [];
+
+function saveData() {
+    localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+    );
+}
+
+function addTransaction() {
+
+    const description =
+        document.getElementById("description").value.trim();
+
+    const amount =
+        Number(document.getElementById("amount").
